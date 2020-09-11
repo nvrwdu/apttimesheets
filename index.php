@@ -1,6 +1,7 @@
 <?php
 
-echo "In www folder. Where we wanted.";
+header("Location: Views/newTimesheetView.php");
+exit();
 
 
 
