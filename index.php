@@ -1,6 +1,6 @@
 <?php
 
-echo "In www folder !";
+echo "In www folder. Where we wanted.";
 
 
 
