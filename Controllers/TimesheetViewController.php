@@ -13,7 +13,9 @@
 // There must be atleast one synthetic name-quantity pair for form submission.
 // All further synthetics are optional.
 
-require_once("../../db_connect.php"); // DB connection held in $conn
+
+echo "Handle form";
+//require_once("../../db_connect.php"); // DB connection held in $conn
 
 
 // echo $_POST['date'];
@@ -24,7 +26,7 @@ require_once("../../db_connect.php"); // DB connection held in $conn
 // echo $_POST['exchange'];
 // echo $_POST['email'];
 //print_r($_POST['plannedsynthetic']);
-print_r($_POST['unplannedsynthetic']);
+//print_r($_POST['unplannedsynthetic']);
 // echo $_POST[''];
 // echo $_POST[''];
 // echo $_POST[''];
@@ -56,20 +58,20 @@ print_r($_POST['unplannedsynthetic']);
 
 
 /* Display all timesheets */
-try {
-  $sql = $conn->query("SELECT * FROM timesheet");
-  //print_r($sql->fetch());
+// try {
+//   $sql = $conn->query("SELECT * FROM timesheet");
+//   //print_r($sql->fetch());
 
-  while ($row = $sql->fetch()) {
-    echo $row['Name']."<br />\n"; // Associative array keys are case sensitive.
-  }
-} catch (PDOException $e) {
-  echo $sql . " " . $e->getMessage();
-}
+//   while ($row = $sql->fetch()) {
+//     echo $row['Name']."<br />\n"; // Associative array keys are case sensitive.
+//   }
+// } catch (PDOException $e) {
+//   echo $sql . " " . $e->getMessage();
+// }
 
 
 
-$conn = null;
+// $conn = null;
 
 
 
