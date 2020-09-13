@@ -5,6 +5,9 @@
  * Reads, validates and stores timesheet data to the database.
  */
 
+
+
+//$mail = PHPMailer();
 // First, get all form data input.
 // Then validate input. If any error exists, keep form sticky, ask user to fix error.
 // When data is valid, use db functions to store data to the database.
