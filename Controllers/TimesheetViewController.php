@@ -12,7 +12,8 @@
 // Check if all required form values entered.
 // There must be atleast one synthetic name-quantity pair for form submission.
 // All further synthetics are optional.
-
+require_once("../../db_config.php");
+require_once("../../db_connect.php");
 
 echo "Handle form";
 //require_once("../../db_connect.php"); // DB connection held in $conn
@@ -22,6 +23,7 @@ echo "Handle form";
 // echo $_POST['name'];
 // echo $_POST['contract'];
 // echo $_POST['jobnumber'];
+
 // echo $_POST['estimate'];
 // echo $_POST['exchange'];
 // echo $_POST['email'];
