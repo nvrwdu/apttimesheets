@@ -16,15 +16,15 @@
 				<div class="date-timefrom-timeto-container">
 					<div class="date">
 			        	<label for="date">Date</label>
-			        	<input type="date" name="datetime[1]['date']" placeholder="Date" />
+			        	<input type="date" name="datetime[0]['date']" placeholder="Date" />
 			        </div>
 			        <div class="time-from">
 				        <label for="time-from">Time From</label>
-				        <input type="time" name="datetime[1]['timefrom']" placeholder="Time" />
+				        <input type="time" name="datetime[0]['timefrom']" placeholder="Time" />
 			    	</div>
 			    	<div class="time-to">
 				        <label for="time-from">Time To</label>
-						<input type="time" name="datetime[1]['timeto']" placeholder="Time" />
+						<input type="time" name="datetime[0]['timeto']" placeholder="Time" />
 					</div>
 				</div>
 

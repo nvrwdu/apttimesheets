@@ -62,7 +62,7 @@ Email dispatched to submitter, as basic html.
 */
 
 
-$dateTimeArray = $_POST['datetime'];
+$dateTimeArray = $_POST['datetime'][0];
 
 $name = $_POST['name'];
 $contract = $_POST['contract'];
@@ -75,6 +75,20 @@ $plannedSyntheticArray = $_POST['plannedsynthetic'];
 $unplannedSyntheticArray = $_POST['unplannedsynthetic'];
 
 
+// Get assoc array working
+// $movie = array('first' => "Shaolin Monk",
+//                'second' => "Drunken Master");
+
+// echo "<br>";
+// print_r($movie);
+// echo "<br>";
+// print_r($dateTimeArray);
+
+// foreach($dateTimeArray as $key => $value) {
+//   echo "the value:" . "$dateTimeArray[$key]<br>";
+//   echo "Key=" . $key . ", Value=" . $value;
+//   echo "<br>";
+// }
 
 
 
@@ -111,7 +125,7 @@ $mail->Port = 587;
 $mail->From = "nvrwdu@hotmail.com";
 $mail->FromName = "Mohammed Amir";
 
-$mail->AddAddress('nvrwdu@hotmail.com', 'Mohammed Amir');
+$mail->AddAddress("$email", "$name");
 
 
 $mail->isHTML(true);
@@ -141,6 +155,11 @@ if(!$mail->send()){
 }else{
     echo 'Message has been sent';
 }
+
+
+
+
+
 
 
 
