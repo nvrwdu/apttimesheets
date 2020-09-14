@@ -1,4 +1,4 @@
-APT Timesheets app notes
+APT Timesheet Web App Notes
 
 
 ** DATABASE NOTES
@@ -37,7 +37,7 @@ APT Timesheets app notes
 	);
 
 
-** APP SETUP
+** APP ARCHITECTURE
 	Database
 		clever-cloud.com
 	Hosting and deployement
@@ -84,10 +84,12 @@ APT Timesheets app notes
 
 ** APP PRIORITY FUNCTIONALITY FOR 14/09/2020
 	User login functionality
-		User types :
-			Gang_member - Submit, amend timesheets
-			Admin - Submit, amend, change timesheet status
-			Super - Submit, amend, change timesheet status, view all timesheets, process late timesheets
+		Login form
+		Create users and user types
+			User types :
+				Gang_member - Submit, amend timesheets
+				Admin - Submit, amend, change timesheet status
+				Super - Submit, amend, change timesheet status, view all timesheets, process late timesheets
 
 	Submit timesheets
 		A form should be ready to login as a gang member or an admin to perform their relative
