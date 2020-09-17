@@ -15,8 +15,6 @@ require_once("../includes/db_config.php");
 require_once("../includes/db_connect.php"); //Returns $conn as handle
 
 
-echo "Handle form";
-
 /*
 Validate form data.
 Insert form data into DB.
