@@ -5,7 +5,7 @@
 </head>
 <body>
     <div>
-        <form action="login-action.php" method="post" id="frmLogin" onSubmit="return validate();">
+        <form action="loginAction.php" method="post" id="frmLogin" onSubmit="return validate();">
             <div class="demo-table">
 
                 <div class="form-head">Login</div>

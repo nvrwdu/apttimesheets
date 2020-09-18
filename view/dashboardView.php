@@ -23,7 +23,7 @@ if (! empty($_SESSION["userId"])) {
     <div>
         <div class="dashboard">
             <div class="member-dashboard">Welcome <b><?php echo $displayName; ?></b>, You have successfully logged in!<br>
-                Click to <a href="./logout.php" class="logout-button">Logout</a>
+                Click to <a href="./logoutAction.php" class="logout-button">Logout</a>
             </div>
         </div>
     </div>

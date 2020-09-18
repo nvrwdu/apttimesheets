@@ -6,8 +6,6 @@ use \Phppot\DataSource;
 class Member
 {
 
-    private $dbConn;
-
     private $ds;
 
     function __construct()
@@ -40,3 +38,9 @@ class Member
 
 
 }
+
+/* Testing */
+//$member = new Member();
+//$result = $member->getMemberById(1);
+//
+//print_r($result);
