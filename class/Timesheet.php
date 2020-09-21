@@ -1,22 +1,23 @@
 <?php
 namespace Phppot;
 
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
+//use \Phppot\DataSource;
 
-use \Phppot\DataSource;
 
 // Integrate PHPMailer functionality into Timesheet class
 
-// Includes for PHP Mailer
+// Namespace for PHP Mailer
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require_once getcwd() . '/vendor/autoload.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/APT/APTTimesheets/www/vendor/autoload.php';
 
 class Timesheet
 {
-
-
     public $timesheetProperties = array();
     private $ds;
 
@@ -30,7 +31,7 @@ class Timesheet
     {
         // get sql info by $id.
         // create and return new Timesheet object
-        $query = "select * FROM Timesheets WHERE TimesheetID = ?";
+        $query = "select TimesheetID * Timesheets WHERE TimesheetID = ?";
         $paramType = "i";
         $paramArray = array($timesheetId);
         $timesheetResult = $this->ds->select($query, $paramType, $paramArray);
@@ -40,6 +41,15 @@ class Timesheet
 
     public function getTimesheetsByUserId($userId) {
         // return timesheets by user id.
+
+        $query = "SELECT * FROM Timesheets WHERE UserId = ?";
+        $paramType = "i";
+        $paramArray = Array($userId);
+
+        $timesheetsResult = $this->ds->select($query, $paramType, $paramArray);
+
+        return $timesheetsResult;
+
     }
 
 
@@ -47,9 +57,9 @@ class Timesheet
     {
         /* Assign form values to this objects values. */
 
-        foreach ($tsVals as $key => $value) {
-            echo '<br>' . $key;
-        }
+//        foreach ($tsVals as $key => $value) {
+//            echo '<br>' . $key;
+//        }
 
         if (
             array_key_exists('name', $tsVals) &&
@@ -61,7 +71,7 @@ class Timesheet
             array_key_exists('plannedsynthetic', $tsVals) &&
             array_key_exists('unplannedsynthetic', $tsVals)
         ) {
-            echo "All required keys exist.";
+            //echo "All required keys exist.";
 
             $this->timesheetProperties['name'] = $tsVals['name'];
 
@@ -78,7 +88,7 @@ class Timesheet
             $this->timesheetProperties['unplannedsynthetic'] = $tsVals['unplannedsynthetic'];
 
             print $this->timesheetProperties['timeto'];
-            $this->printTimesheetProperties();
+            //$this->printTimesheetProperties();
 
         } else {
             echo "Required keys missing";
@@ -103,10 +113,10 @@ class Timesheet
     public function saveTimesheet()
     {
         /* Save timesheet data */
-        $query = "INSERT INTO Timesheets (Date, TimeFrom, TimeTo, Contract, JobNumber, Estimate, Exchange)
-          VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $query = "INSERT INTO Timesheets (Date, TimeFrom, TimeTo, Contract, JobNumber, Estimate, Exchange, UserId, Status)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         //$query = "select * FROM registered_users WHERE id = ?";
-        $paramType = "sssssss";
+        $paramType = "sssssssis";
         $paramArray = array(
             $this->timesheetProperties['date'],
             $this->timesheetProperties['timefrom'],
@@ -114,27 +124,41 @@ class Timesheet
             $this->timesheetProperties['contract'],
             $this->timesheetProperties['jobnumber'],
             $this->timesheetProperties['estimate'],
-            $this->timesheetProperties['exchange']
+            $this->timesheetProperties['exchange'],
+            $_SESSION["userId"],
+            'pending'
         );
-        $memberResult = $this->ds->insert($query, $paramType, $paramArray);
-        echo "timesheet ID : " . $memberResult;
+        $currentTimesheetID = $this->ds->insert($query, $paramType, $paramArray);
+        //echo "timesheet ID : " . $currentTimesheetID;
 
         /* Save synthetic details */
 
         /*
-         * for each key val pair in synthetic
-         * save each into syntheticName, syntheticQuantity, syntheticComment
-         * save each element above to synthetics table
+         * Save planned synthetic
          */
-        //print_r($this->timesheetProperties['plannedsynthetic'][1]);
         $syntheticName = $this->timesheetProperties['plannedsynthetic'][1]["'plannedsynthetic'"];
         $syntheticQuantity = $this->timesheetProperties['plannedsynthetic'][1]["'quantity'"];
 
         $query = "INSERT INTO Synthetics (TimesheetID, Name, Quantity, syntheticType)
           VALUES (?, ?, ?, ?)";
         $paramType = "isis";
-        $paramArray = array(25, $syntheticName, $syntheticQuantity, 'planned');
+        $paramArray = array($currentTimesheetID, $syntheticName, $syntheticQuantity, 'planned');
         $memberResult = $this->ds->insert($query, $paramType, $paramArray);
+
+        /*
+         * Save unplanned synthetic
+         *
+         */
+        $syntheticName = $this->timesheetProperties['unplannedsynthetic'][1]["'unplannedsynthetic'"];
+        $syntheticQuantity = $this->timesheetProperties['unplannedsynthetic'][1]["'quantity'"];
+
+        $query = "INSERT INTO Synthetics (TimesheetID, Name, Quantity, syntheticType)
+          VALUES (?, ?, ?, ?)";
+        $paramType = "isis";
+        $paramArray = array($currentTimesheetID, $syntheticName, $syntheticQuantity, 'unplanned');
+        $memberResult = $this->ds->insert($query, $paramType, $paramArray);
+
+
 
 
         //$syntheticQuantity = $this->timesheetProperties['plannedsynthetic'][1];
@@ -215,14 +239,27 @@ class Timesheet
 
 }
 
+//echo $_SESSION['userId'];
 
 /* Testing Timesheets.php */
+
+
+// TEST : Get and output timesheet data
 
 //$timesheet = new Timesheet();
 //$result = $timesheet->getTimesheetById(1);
 //echo "FROM TIMESHEET.PHP" . print_r($result);
 //
 //$timesheet->saveTimesheet();
+
+
+//  Print timesheets for user
+//foreach ($timesheets as $timesheet) {
+//    foreach ($timesheet as $key => $value) {
+//        echo  "<br>" . "key: " . $key . " Value: " . $value;
+//    }
+//}
+
 
 //if (! empty($_SESSION["userId"])) {
 //    require_once __DIR__ . './../class/Member.php';

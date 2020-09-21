@@ -1,3 +1,5 @@
+
+
 <html>
 <head>
 <title>User Login</title>
@@ -5,7 +7,7 @@
 </head>
 <body>
     <div>
-        <form action="loginAction.php" method="post" id="frmLogin" onSubmit="return validate();">
+        <form action="../www/action/ActionLogin.php" method="post" id="frmLogin" onSubmit="return validate();">
             <div class="demo-table">
 
                 <div class="form-head">Login</div>

@@ -6,9 +6,9 @@ if(!session_start()){
 }
 
 if(!empty($_SESSION["userId"])) {
-    require_once './view/submitterLandingView.php';
+    require_once './view/views/ViewHome.php';
 } else {
-    require_once './view/loginFormView.php';
+    require_once './view/views/ViewLoginForm.php';
 }
 
 exit();

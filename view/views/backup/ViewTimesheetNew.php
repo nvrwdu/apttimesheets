@@ -10,14 +10,14 @@ if(empty($_SESSION["userId"])) {
     echo "session userid empty";
     //Header('Location: ./loginFormView.php');
 } else {
-    echo 'userid: ' . $_SESSION["userId"];
+    //echo 'userid: ' . $_SESSION["userId"];
 }
 
 use http\Header;
 use \Phppot\Member;
 
 if (! empty($_SESSION["userId"])) {
-    require_once __DIR__ . './../class/Member.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/APT/APTTimesheets/www/class/Member.php';
     $member = new Member();
     $memberResult = $member->getMemberById($_SESSION["userId"]);
     if(!empty($memberResult[0]["display_name"])) {
@@ -26,29 +26,27 @@ if (! empty($_SESSION["userId"])) {
         $displayName = $memberResult[0]["user_name"];
     }
 }
+
 ?>
-
-
 
 
 <!DOCTYPE html>
 <html>
 <head>
     <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css" integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
-    <link rel="stylesheet" href="./view/css/main.css">
+    <link rel="stylesheet" href="../css/main.css">
+    <link href="../css/style.css" rel="stylesheet" type="text/css" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link href="./view/css/style.css" rel="stylesheet" type="text/css" />
-    <head/>
+<head/>
 
 <body>
 
 <div>
     <div class="dashboard">
         <div class="member-dashboard">Welcome <b><?php echo $displayName; ?></b>, You have successfully logged in!<br>
-            <a href="./view/timesheetNew.php" class="logout-button">New timesheet    |    </a>
-            <a href="./timesheetSummaryAction.php" class="logout-button">All timesheets    |    </a>
-            <a href="./logoutAction.php" class="logout-button">Logout</a><br>
+            <a href="ViewTimesheetNew.php" class="logout-button">New timesheet    |    </a>
+            <a href="ViewTimesheetSummary.php" class="logout-button">All timesheets    |    </a>
+            <a href="../../action/ActionLogout.php" class="logout-button">Logout</a><br>
 
         </div>
     </div>
@@ -125,10 +123,9 @@ if (! empty($_SESSION["userId"])) {
             <button type="submit" class="pure-button pure-button-primary">Submit Timesheet</button>
         </fieldset>
     </form>
+</div>
 </body>
 
 
 <script src="../js/timesheetApp.js"></script>
-
-</div>
 

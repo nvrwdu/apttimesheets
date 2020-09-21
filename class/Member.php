@@ -1,7 +1,6 @@
 <?php
 namespace Phppot;
 
-use \Phppot\DataSource;
 
 class Member
 {
@@ -36,6 +35,12 @@ class Member
         }
     }
 
+    public function getMemberUserStatus($memberId) {
+        // Code to get member user status
+        // return $userStatus;
+        return "submitter";
+    }
+
 
 }
 
@@ -44,3 +49,5 @@ class Member
 //$result = $member->getMemberById(1);
 //
 //print_r($result);
+
+

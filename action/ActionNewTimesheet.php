@@ -14,12 +14,11 @@ namespace Phppot;
 //use PHPMailer\PHPMailer\PHPMailer;
 //use PHPMailer\PHPMailer\Exception;
 //require_once './vendor/autoload.php';
-echo "new timesheet";
 //// Includes for database
 //require_once("../includes/db_config.php");
 //require_once("../includes/db_connect.php"); //Returns $conn as handle
 
-require_once getcwd() . "/class/Timesheet.php";
+require_once "../class/Timesheet.php";
 
 
 
