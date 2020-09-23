@@ -157,3 +157,16 @@ class DataSource
         return $recordCount;
     }
 }
+
+/* Test datasource */
+//$ds = new DataSource();
+//
+//    $query = "SELECT * FROM Timesheets INNER JOIN Synthetics ON Timesheets.TimesheetID=Synthetics.TimesheetID WHERE Timesheets.TimesheetId=?";
+//$timesheetId = 60;
+////        SELECT Orders.OrderID, Customers.CustomerName, Orders.OrderDate
+////FROM Orders
+////INNER JOIN Customers ON Orders.CustomerID=Customers.CustomerID;
+//        $paramType = "i";
+//        $paramArray = array($timesheetId);
+//        $timesheetResult = $ds->select($query, $paramType, $paramArray);
+//        print_r($timesheetResult);

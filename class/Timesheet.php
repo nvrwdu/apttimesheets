@@ -31,11 +31,21 @@ class Timesheet
     {
         // get sql info by $id.
         // create and return new Timesheet object
-        $query = "select TimesheetID * Timesheets WHERE TimesheetID = ?";
+        //$query = "select * FROM Timesheets WHERE TimesheetID = ?";
+        $query = "SELECT * FROM Timesheets LEFT JOIN Synthetics ON Timesheets.TimesheetID=Synthetics.TimesheetID WHERE Timesheets.TimesheetId=?";
+
+//        SELECT Orders.OrderID, Customers.CustomerName, Orders.OrderDate
+//FROM Orders
+//INNER JOIN Customers ON Orders.CustomerID=Customers.CustomerID;
         $paramType = "i";
         $paramArray = array($timesheetId);
         $timesheetResult = $this->ds->select($query, $paramType, $paramArray);
 
+        //var_dump($timesheetResult[1]['syntheticType']);
+
+//        foreach ($timesheetResult as $timesheetResult) {
+//            print_r($timesheetResult);
+//        }
         return $timesheetResult;
     }
 
@@ -270,4 +280,22 @@ class Timesheet
 //    } else {
 //        $displayName = $memberResult[0]["user_name"];
 //    }
+//}
+
+
+// Testing timesheet synthetic output from inner join query
+//$timesheet = new Timesheet();
+//$timesheetResult = $timesheet->getTimesheetById(60);
+//print_r($timesheetResult[1]['syntheticType']);
+//print_r($timesheetResult[1]);
+
+
+//foreach ($timesheetResult as $timesheet) {
+//    echo $timesheet . '<br>';
+//}
+
+
+//foreach ($timesheetResult as $key => $value) {
+//    echo '<br><b>' . $key . '</b>';
+//    echo $value . '<br>';
 //}

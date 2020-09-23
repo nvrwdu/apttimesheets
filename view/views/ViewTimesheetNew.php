@@ -9,27 +9,36 @@ if (session_status() == PHP_SESSION_NONE) {
 
 if(empty($_SESSION["userId"])) {
     echo "session userid empty";
-    //Header('Location: ./loginFormView.php');
+    Header('Location: ./ViewLoginForm.php');
 } else {
     //echo 'userid: ' . $_SESSION["userId"];
 }
 
+
+
+
 use http\Header;
 use \Phppot\Member;
 
-if (! empty($_SESSION["userId"])) {
-    require_once $_SERVER['DOCUMENT_ROOT'] . '/APT/APTTimesheets/www/class/Member.php';
-    $member = new Member();
-    $memberResult = $member->getMemberById($_SESSION["userId"]);
-    if(!empty($memberResult[0]["display_name"])) {
-        $displayName = ucwords($memberResult[0]["display_name"]);
-    } else {
-        $displayName = $memberResult[0]["user_name"];
-    }
-}
+// Get member displayName
+//if (! empty($_SESSION["userId"])) {
+//    require_once $_SERVER['DOCUMENT_ROOT'] . '/APT/APTTimesheets/www/class/Member.php';
+//    $member = new Member();
+//    $memberResult = $member->getMemberById($_SESSION["userId"]);
+//    if(!empty($memberResult[0]["display_name"])) {
+//        $displayName = ucwords($memberResult[0]["display_name"]);
+//    } else {
+//        $displayName = $memberResult[0]["user_name"];
+//    }
+//}
+
 
 // Store display name in the global array
-$_SESSION['GDisplayName'] = $displayName;
+
+
+
+echo "Email: " . $_SESSION["userEmail"];
+
 
 ?>
 

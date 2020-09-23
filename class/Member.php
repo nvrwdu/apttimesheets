@@ -31,14 +31,20 @@ class Member
         $memberResult = $this->ds->select($query, $paramType, $paramArray);
         if(!empty($memberResult)) {
             $_SESSION["userId"] = $memberResult[0]["id"];
+            $_SESSION["userEmail"] = $memberResult[0]["email"];
+            $_SESSION["userType"] = $memberResult[0]["user_type"];
+            $_SESSION["userDisplayName"] = $memberResult[0]["display_name"];
             return true;
         }
     }
 
     public function getMemberUserStatus($memberId) {
-        // Code to get member user status
-        // return $userStatus;
-        return "submitter";
+        $query = "select user_type FROM registered_users WHERE id = ?";
+        $paramType = "i";
+        $paramArray = array($memberId);
+        $userType = $this->ds->select($query, $paramType, $paramArray);
+
+        return $userType;
     }
 
 
@@ -46,8 +52,8 @@ class Member
 
 /* Testing */
 //$member = new Member();
-//$result = $member->getMemberById(1);
+//$result = $member->processLogin('kate_91', 'kate@03');
 //
-//print_r($result);
+//print_r($_SESSION["userEmail"]);
 
 
