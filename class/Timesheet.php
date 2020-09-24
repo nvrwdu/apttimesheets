@@ -62,28 +62,49 @@ class Timesheet
 
     }
 
+    public function getPlannedSynthetics($timesheetResult, $syntheticType) {
+
+        $plannedSynthetics = array();
+
+        foreach ($timesheetResult as $timesheetData) {
+            foreach ($timesheetData as $key => $value) {
+                if ($key == 'syntheticType' && $value == $syntheticType) {
+
+                    switch ($syntheticType) {
+                        case 'planned':
+                            $plannedSynthetics[] = array($timesheetData['Name'], $timesheetData['Quantity']);
+                            break;
+                        case 'unplanned':
+                            $plannedSynthetics[] = array($timesheetData['Name'], $timesheetData['Quantity'], 'comment for unplanned');
+                            break;
+                    }
+
+                }
+            }
+        }
+        return $plannedSynthetics;
+    }
+
+
 
     public function setTimesheetValuesByAssocArray($tsVals)
     {
         /* Assign form values to this objects values. */
 
-//        foreach ($tsVals as $key => $value) {
-//            echo '<br>' . $key;
-//        }
 
         if (
-            array_key_exists('name', $tsVals) &&
+            //array_key_exists('name', $tsVals) &&
             array_key_exists('datetime', $tsVals) &&
             array_key_exists('contract', $tsVals) &&
             array_key_exists('jobnumber', $tsVals) &&
             array_key_exists('estimate', $tsVals) &&
             array_key_exists('exchange', $tsVals) &&
-            array_key_exists('plannedsynthetic', $tsVals) &&
-            array_key_exists('unplannedsynthetic', $tsVals)
+            array_key_exists('plannedsynthetic', $tsVals)
+            //array_key_exists('unplannedsynthetic', $tsVals)
         ) {
             //echo "All required keys exist.";
 
-            $this->timesheetProperties['name'] = $tsVals['name'];
+            //$this->timesheetProperties['name'] = $tsVals['name'];
 
             $this->timesheetProperties['date'] = $tsVals['datetime'][0]["'date'"];
             $this->timesheetProperties['timefrom'] = $tsVals['datetime'][0]["'timefrom'"];
@@ -97,7 +118,9 @@ class Timesheet
             $this->timesheetProperties['plannedsynthetic'] = $tsVals['plannedsynthetic'];
             $this->timesheetProperties['unplannedsynthetic'] = $tsVals['unplannedsynthetic'];
 
-            print $this->timesheetProperties['timeto'];
+            $this->timesheetProperties['comments'] = $tsVals['timesheetcomments'];
+
+            //print $this->timesheetProperties['timeto'];
             //$this->printTimesheetProperties();
 
         } else {
@@ -108,7 +131,7 @@ class Timesheet
     /*
      * Print out timesheet properties in a friendly format.
      */
-    private function printTimesheetProperties() {
+    public function printTimesheetProperties() {
             foreach ($this->timesheetProperties as $property => $value) {
                 echo "<br><b>Property : </b>" . $property . " ";
                 echo "<b>Value : </b>" . $value;
@@ -123,10 +146,10 @@ class Timesheet
     public function saveTimesheet()
     {
         /* Save timesheet data */
-        $query = "INSERT INTO Timesheets (Date, TimeFrom, TimeTo, Contract, JobNumber, Estimate, Exchange, UserId, Status)
-          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $query = "INSERT INTO Timesheets (Date, TimeFrom, TimeTo, Contract, JobNumber, Estimate, Exchange, UserId, Status, Comments)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         //$query = "select * FROM registered_users WHERE id = ?";
-        $paramType = "sssssssis";
+        $paramType = "sssssssiss";
         $paramArray = array(
             $this->timesheetProperties['date'],
             $this->timesheetProperties['timefrom'],
@@ -136,7 +159,8 @@ class Timesheet
             $this->timesheetProperties['estimate'],
             $this->timesheetProperties['exchange'],
             $_SESSION["userId"],
-            'pending'
+            'pending',
+            $this->timesheetProperties['comments']
         );
         $currentTimesheetID = $this->ds->insert($query, $paramType, $paramArray);
         //echo "timesheet ID : " . $currentTimesheetID;

@@ -32,7 +32,7 @@
 
             <label for="contract">Contract</label>
                 <?
-                // Keep select contract value equal to timesheet contract value
+                // Keep timesheet contract value as selected
                     $xml =
                         "<select name='contract'>
                             <option>Telent</option>
@@ -70,28 +70,74 @@
 
 
             <b>Planned work</b><br><br>
+            <?php
+                require_once "../../class/Timesheet.php";
 
-            Synthetic <input type="text" name="plannedsynthetic[1]['plannedsynthetic']"> Quantity <input type="text" name="plannedsynthetic[1]['quantity']"><br>
+                // Get planned synthetic data
+                $timesheet = new \Phppot\Timesheet();
+                $plannedSynthetics = $timesheet->getPlannedSynthetics($singleTimesheet, 'planned');
+                $unplannedSynthetics = $timesheet->getPlannedSynthetics($singleTimesheet, 'unplanned');
+                print_r($plannedSynthetics[0]);
+                print_r($unplannedSynthetics[0]);
+
+                // Now loop over planned and unplanned synthetics, creating html dynamically.
+
+
+
+            ?>
+            Synthetic <input type="text" name="plannedsynthetic[1]['plannedsynthetic']" value="<?php echo $plannedSynthetics[0][0]; ?>">
+            Quantity <input type="text" name="plannedsynthetic[1]['quantity']" value="<?php echo $plannedSynthetics[0][1]; ?>"><br>
             <button type="button" class="pure-button" id="btn-add-new-planned-synthetic">Add</button>
 
+
+
+
             <br><br><br><br>
+
+
+
 
 
             <b>DfE's / Unplanned work</b><br><br>
 
-            Synthetic <input type="text" name="unplannedsynthetic[1]['unplannedsynthetic']"> Quantity <input type="text" name="unplannedsynthetic[1]['quantity']">
-            <textarea id="textarea-unplanned-work-comments-box" name="unplannedsynthetic[1]['comments']" placeholder="Comments"></textarea>
+            Synthetic <input type="text" name="unplannedsynthetic[1]['unplannedsynthetic']" value="<?php echo $unplannedSynthetics[0][0]; ?>">
+            Quantity <input type="text" name="unplannedsynthetic[1]['quantity']" value="<?php echo $unplannedSynthetics[0][1]; ?>">
+            <textarea id="textarea-unplanned-work-comments-box" name="unplannedsynthetic[1]['comments']" placeholder="Comments"><?php echo $unplannedSynthetics[0][2]; ?></textarea>
             <br>
             <button type="button" class="pure-button" id="btn-add-new-planned-synthetic">Add</button>
 
+
             <br><br><br><br>
-            <textarea id="textarea-timesheet-comments-box" name="timesheetcomments" placeholder="Timesheet comments"></textarea>
+            <textarea id="textarea-timesheet-comments-box" name="timesheetcomments" placeholder="Timesheet comments" ><?php echo $singleTimesheet[0]['Comments']; ?></textarea>
             <br>
 
 
             <br><br>
 
-            <button type="submit" class="pure-button pure-button-primary">Submit Timesheet</button>
+            <?php
+                // Render buttons based on timesheet status
+                // If no session for timesheet status exists, render 'new' and 'change' buttons
+                // If 'pending' status, render, 'new' and 'change buttons
+                // If 'rejected status, render, 'amend' button
+
+                echo $timesheetStatus = $singleTimesheet[0]['Status'];
+
+                switch ($timesheetStatus) {
+                    case 'pending':
+                        echo
+                            '<button type="submit" class="pure-button pure-button-primary">Submit new timesheet</button>
+                            <br><br>';
+                        break;
+                    case 'rejected':
+                        echo '<button type="button" class="pure-button pure-button-primary">Amend timesheet</button>';
+                        break;
+                    default:
+                        echo 'default state';
+                        '<button type="submit" class="pure-button pure-button-primary">Submit new timesheet</button>
+                            <br><br>';
+                }
+            ?>
+
         </fieldset>
     </form>
 </div>

@@ -19,15 +19,33 @@ require_once "../class/Timesheet.php";
 $timesheet = new Timesheet();
 $singleTimesheet = $timesheet->getTimesheetById($_GET['timesheetId']);
 
-//print_r($singleTimesheet[0]);
+//print_r($singleTimesheet);
+
+
+// Getting planned synthetics from timesheet
+    //$plannedSynthetics = $timesheet->getPlannedSynthetics($singleTimesheet);
+    //print_r($plannedSynthetics);
+
+    //print_r($singleTimesheet[0]['Name']);
+    //echo '<br>';
+    //print_r($singleTimesheet[0]['Quantity']);
+    //echo '<br>';
+    //print_r($singleTimesheet[0]['syntheticType']);
+    //echo '<br>';
+    //print_r($singleTimesheet[1]['Name']);
+    //echo '<br>';
+    //print_r($singleTimesheet[1]['Quantity']);
+    //echo '<br>';
+    //print_r($singleTimesheet[1]['syntheticType']);
+    //echo '<br>';
+//
 
 
 $_SESSION['singleTimesheet'] = $singleTimesheet;
 
 Header('Location: ../view/views/ViewTimesheetNew.php');
 
-//$timesheetRenderer = new TimesheetSummaryRenderView($singleTimesheet);
-//$timesheetRenderer->renderSingleTimesheet();
+
 
 
 
